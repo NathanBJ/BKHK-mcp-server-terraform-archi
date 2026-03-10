@@ -1,0 +1,53 @@
+# =============================================================================
+# outputs_for_mcp_server.tf - Add this to your podcast pipeline Terraform
+# =============================================================================
+# These outputs provide the values needed for the MCP server project.
+# Add this file to your podcast-pipeline-terraform directory.
+# =============================================================================
+
+output "mcp_server_config" {
+  description = "Configuration values for the MCP server Terraform project"
+  value = <<-EOT
+    
+    # Copy these values to mcp-server-terraform/terraform.tfvars:
+    
+    vpc_id                = "${var.vpc_id}"
+    subnet_ids            = ${jsonencode(var.subnet_ids)}
+    efs_file_system_id    = "${aws_efs_file_system.main.id}"
+    efs_access_point_id   = "${aws_efs_access_point.app.id}"
+    efs_security_group_id = "${aws_security_group.efs.id}"
+    ecr_repository_url    = "${aws_ecr_repository.app.repository_url}"
+    
+  EOT
+}
+
+# Individual outputs for scripting
+output "for_mcp_vpc_id" {
+  description = "VPC ID for MCP server"
+  value       = var.vpc_id
+}
+
+output "for_mcp_subnet_ids" {
+  description = "Subnet IDs for MCP server"
+  value       = var.subnet_ids
+}
+
+output "for_mcp_efs_file_system_id" {
+  description = "EFS File System ID for MCP server"
+  value       = aws_efs_file_system.main.id
+}
+
+output "for_mcp_efs_access_point_id" {
+  description = "EFS Access Point ID for MCP server"
+  value       = aws_efs_access_point.app.id
+}
+
+output "for_mcp_efs_security_group_id" {
+  description = "EFS Security Group ID for MCP server"
+  value       = aws_security_group.efs.id
+}
+
+output "for_mcp_ecr_repository_url" {
+  description = "ECR Repository URL for MCP server"
+  value       = aws_ecr_repository.app.repository_url
+}
