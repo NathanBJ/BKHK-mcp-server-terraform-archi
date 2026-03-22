@@ -1,81 +1,24 @@
-# =============================================================================
-# .GITIGNORE - Files to exclude from version control
-# =============================================================================
-
-# -----------------------------------------------------------------------------
-# Terraform Files
-# -----------------------------------------------------------------------------
-
-# Local .terraform directories
+# Terraform
 .terraform/
-
-# Terraform lock file (some teams commit this, some don't)
-# Uncomment to ignore:
-# .terraform.lock.hcl
-
-# Terraform state files (NEVER commit these!)
-# State files contain sensitive information and resource IDs
+.terraform.lock.hcl
 *.tfstate
 *.tfstate.*
-
-# Crash log files
-crash.log
-crash.*.log
-
-# Override files (used for local customizations)
-override.tf
-override.tf.json
-*_override.tf
-*_override.tf.json
-
-# Terraform plan files (may contain sensitive data)
 *.tfplan
-plan.out
 
-# -----------------------------------------------------------------------------
-# Sensitive Variable Files
-# -----------------------------------------------------------------------------
-
-# terraform.tfvars may contain sensitive values
-# Use terraform.tfvars.example as a template
+# Variables with secrets
 terraform.tfvars
 *.auto.tfvars
 
-# Secret files
-*.pem
-*.key
-secrets.tf
+# Crash logs
+crash.log
+crash.*.log
 
-# -----------------------------------------------------------------------------
-# IDE and Editor Files
-# -----------------------------------------------------------------------------
-
-# VSCode
-.vscode/
-
-# IntelliJ IDEA
+# IDE
 .idea/
-*.iml
-
-# Vim
+.vscode/
 *.swp
 *.swo
-*~
 
-# macOS
+# OS
 .DS_Store
-
-# -----------------------------------------------------------------------------
-# Misc
-# -----------------------------------------------------------------------------
-
-# Backup files
-*.bak
-*.backup
-
-# Log files
-*.log
-
-# Temporary files
-tmp/
-temp/
+Thumbs.db

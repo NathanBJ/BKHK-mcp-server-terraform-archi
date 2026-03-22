@@ -9,7 +9,7 @@
 variable "project_name" {
   description = "Name of the project, used for resource naming"
   type        = string
-  default     = "BKHK-mcp-server"
+  default     = "mcp-server"
 }
 
 variable "environment" {
@@ -34,7 +34,7 @@ variable "vpc_id" {
 }
 
 variable "subnet_ids" {
-  description = "Subnet IDs for VPC connector (same as podcast pipeline, need at least 2)"
+  description = "Subnet IDs for ECS tasks (same as podcast pipeline)"
   type        = list(string)
 }
 
@@ -54,18 +54,18 @@ variable "efs_security_group_id" {
 }
 
 variable "ecr_repository_url" {
-  description = "ECR repository URL for the MCP server image (can be same as podcast pipeline)"
+  description = "ECR repository URL for the MCP server image"
   type        = string
 }
 
 # -----------------------------------------------------------------------------
-# App Runner Configuration
+# Container Configuration
 # -----------------------------------------------------------------------------
 
 variable "container_image_tag" {
   description = "Docker image tag for MCP server"
   type        = string
-  default     = "mcp-server-latest"
+  default     = "latest"
 }
 
 variable "container_port" {
@@ -75,21 +75,21 @@ variable "container_port" {
 }
 
 variable "container_cpu" {
-  description = "CPU units for App Runner (1024 = 1 vCPU)"
+  description = "CPU units for Fargate (256, 512, 1024, 2048, 4096)"
   type        = number
-  default     = 1024
+  default     = 512
 }
 
 variable "container_memory" {
-  description = "Memory in MB for App Runner"
+  description = "Memory in MB for Fargate"
   type        = number
-  default     = 2048
+  default     = 1024
 }
 
 variable "efs_mount_path" {
   description = "Path where EFS is mounted inside the container"
   type        = string
-  default     = "/app"
+  default     = "/mnt/efs"
 }
 
 variable "chromadb_path" {
@@ -99,25 +99,37 @@ variable "chromadb_path" {
 }
 
 # -----------------------------------------------------------------------------
-# App Runner Scaling Configuration
+# Scaling Configuration
 # -----------------------------------------------------------------------------
 
-variable "min_instances" {
-  description = "Minimum number of instances (0 for scale-to-zero, but App Runner min is 1 for provisioned)"
+variable "desired_count" {
+  description = "Desired number of tasks"
   type        = number
   default     = 1
 }
 
-variable "max_instances" {
-  description = "Maximum number of instances"
+variable "min_capacity" {
+  description = "Minimum number of tasks for auto-scaling"
+  type        = number
+  default     = 0
+}
+
+variable "max_capacity" {
+  description = "Maximum number of tasks for auto-scaling"
   type        = number
   default     = 2
 }
 
-variable "max_concurrency" {
-  description = "Maximum concurrent requests per instance before scaling"
+variable "scale_in_cooldown" {
+  description = "Seconds to wait before scaling in"
   type        = number
-  default     = 50
+  default     = 300
+}
+
+variable "scale_out_cooldown" {
+  description = "Seconds to wait before scaling out"
+  type        = number
+  default     = 60
 }
 
 # -----------------------------------------------------------------------------
