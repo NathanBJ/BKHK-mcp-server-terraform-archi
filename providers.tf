@@ -11,15 +11,6 @@ terraform {
       version = "~> 5.0"
     }
   }
-
-  # Optional: Remote state backend
-  # backend "s3" {
-  #   bucket         = "your-terraform-state-bucket"
-  #   key            = "mcp-server/terraform.tfstate"
-  #   region         = "eu-west-3"
-  #   dynamodb_table = "terraform-locks"
-  #   encrypt        = true
-  # }
 }
 
 provider "aws" {

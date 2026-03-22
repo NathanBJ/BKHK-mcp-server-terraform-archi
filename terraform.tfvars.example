@@ -3,10 +3,6 @@
 # =============================================================================
 # Copy this file to terraform.tfvars and fill in your values:
 #   cp terraform.tfvars.example terraform.tfvars
-#
-# Get values from your podcast pipeline:
-#   cd ../podcast-pipeline-terraform
-#   terraform output
 # =============================================================================
 
 # -----------------------------------------------------------------------------
@@ -21,33 +17,35 @@ aws_region   = "eu-west-3"
 # References from Podcast Pipeline (run 'terraform output' in that project)
 # -----------------------------------------------------------------------------
 
-vpc_id                = "vpc-xxxxxxxxx"           # Your VPC ID
-subnet_ids            = ["subnet-xxx", "subnet-yyy"]  # At least 2 subnets
-efs_file_system_id    = "fs-xxxxxxxxx"            # EFS file system ID
-efs_access_point_id   = "fsap-xxxxxxxxx"          # EFS access point ID
-efs_security_group_id = "sg-xxxxxxxxx"            # Security group for EFS access
-ecr_repository_url    = "123456789.dkr.ecr.eu-west-3.amazonaws.com/your-repo"
+vpc_id                = "vpc-001773bbea7034ea5"
+subnet_ids            = ["subnet-00bf4601edba98fb2", "subnet-0f1f5abd4e8950cd6", "subnet-0296907ab9d5cc3dd"]
+efs_file_system_id    = "fs-001cbaff5cd1d4a46"
+efs_access_point_id   = "fsap-04536e03ad39503fa"
+efs_security_group_id = "sg-098d5b8f5f70c98d9"
+ecr_repository_url    = "837563944804.dkr.ecr.eu-west-3.amazonaws.com/bkhk-mcp-server"
 
 # -----------------------------------------------------------------------------
 # MCP Server Container Settings
 # -----------------------------------------------------------------------------
 
-container_image_tag = "mcp-server-latest"
+container_image_tag = "latest"
 container_port      = 8080
-container_cpu       = 1024   # 1 vCPU
-container_memory    = 2048   # 2 GB
+container_cpu       = 512    # 0.5 vCPU
+container_memory    = 1024   # 1 GB
 
 # EFS mount paths
 efs_mount_path = "/mnt/efs"
 chromadb_path  = "/mnt/efs/chromadb"
 
 # -----------------------------------------------------------------------------
-# Scaling (App Runner)
+# Scaling
 # -----------------------------------------------------------------------------
 
-min_instances   = 1    # App Runner minimum is 1 (but scales down to pause)
-max_instances   = 2
-max_concurrency = 50   # Requests per instance before scaling
+desired_count      = 1
+min_capacity       = 0
+max_capacity       = 2
+scale_in_cooldown  = 300
+scale_out_cooldown = 60
 
 # -----------------------------------------------------------------------------
 # Environment Variables
@@ -55,8 +53,6 @@ max_concurrency = 50   # Requests per instance before scaling
 
 container_environment = {
   LOG_LEVEL = "INFO"
-  # Add any other env vars your MCP server needs
 }
 
-# HuggingFace token for embeddings (if needed)
-hf_token = "hf_xxxxxxxxxx"
+hf_token = ""
